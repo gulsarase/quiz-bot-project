@@ -1,5 +1,6 @@
 import json
 import logging
+from send_to_aisulu import send_results_to_aisulu  # Импортируем функцию отправки
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -49,6 +50,9 @@ class QuizSession:
             if answer == session["questions"][i]["answer"]:
                 correct_answers += 1
         
+        # Отправляем результаты в Aisulu
+        send_results_to_aisulu(user_id, correct_answers, len(session['questions']))
+
         del self.sessions[user_id]  # Удаляем сессию после завершения
         return f"Quiz complete! You answered {correct_answers}/{len(session['questions'])} correctly."
 
